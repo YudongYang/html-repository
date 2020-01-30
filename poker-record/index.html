@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Poker Record</title>
+    <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="js/record.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script> -->
+    <script src="js/vue@2.6.11.js"></script>
+    <style>
+      .player-input {
+        width: 300px;
+        margin: 20px 20px 20px 20px;
+      }
+      .score-board {
+        margin: 20px 20px 20px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="player-input" v-if=" !running ">
+        {{ players }}
+        <div class="player-input-row row" v-for=" (player, index) of players " :key=" index ">
+          name: <input v-model="player.name" class="form-control col-sm" />
+          score: <input v-model="player.score" class="form-control col-sm" />
+          <button v-if=" index === (players.length - 1) " @click=" addPlayer" class="form-control col-sm">添加</button>
+        </div>
+        <div class="row">
+          <button @click=" recordStart " class="form-control col-sm">
+            开始计分
+          </button>
+        </div>
+      </div>
+      <div class="score-board" v-if=" running ">
+        {{ newRecord }}
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th v-for=" (player, index) in players " :key=" index " scope="col">
+                {{ player.name }}
+              </th>
+            </tr>
+            <tr>
+              <th>*</th>
+              <th v-for=" (scoreRecord, name, index) in records.players " :key=" index " scope="col">
+                {{ scoreRecord.score }}
+              </th>
+            </tr>
+            <tr>
+              <th>
+                <button @click=" addRecord " class="form-control btn-success">+</button>
+              </th>
+              <th v-for=" (scoreRecord, name, index) in records.players " :key=" index " scope="col">
+                <input v-model=" newRecord[name] " class="form-control" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for=" (record, index) in records.recordList " :key=" index ">
+              <th scope="row">{{ index }}</th>
+              <td v-for=" (score, name, j) in record ">
+                {{ score }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {{ records }}
+      </div>
+    </div>
+    <script src="js/view.js"></script>
+  </body>
+</html>
