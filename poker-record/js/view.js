@@ -18,7 +18,7 @@ var vm = new Vue({
       this.running = true
       let players = []
       for(let p of this.players) {
-        let player = new Player(p.name, p.score)
+        let player = new Player(p.name, Number(p.score))
         players.push(player)
       }
       this.records = new Record(players)
